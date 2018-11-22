@@ -18,10 +18,13 @@ module ``about the order of evaluation`` =
 
         let result = add (add 5 8) (add 1 1)
 
-        AssertEquality result __
+        AssertEquality result 15
 
         (* TRY IT: What happens if you remove the parenthesis?*)
 
+        (* Answer: You get a compiler error because "add" alone 
+                   isn't a valid operand/value for the first "add". *)
+    
     [<Koan>]
     let TheBackwardPipeOperatorCanAlsoHelpWithGrouping() =
         let add x y =
@@ -32,4 +35,4 @@ module ``about the order of evaluation`` =
 
         let result = double <| add 5 8
 
-        AssertEquality result __
+        AssertEquality result 26
