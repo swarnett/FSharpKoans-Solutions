@@ -1,5 +1,7 @@
 ﻿namespace FSharpKoans
 open FSharpKoans.Core
+open System.Globalization
+open System
 
 //---------------------------------------------------------------
 // Apply Your Knowledge!
@@ -54,12 +56,17 @@ module ``about the stock example`` =
           "2012-03-01,31.93,32.39,31.85,32.29,77344100,32.29";
           "2012-02-29,31.89,32.00,31.61,31.74,59323600,31.74"; ]
     
-    // Feel free to add extra [<Koan>] members here to write
-    // tests for yourself along the way. You can also try 
-    // using the F# Interactive window to check your progress.
+    let splitCommas (x:string) =
+        x.Split([|','|])
+
+    let priceDifference (entryArray:string[]) =
+         let openPrice =  System.Double.Parse(entryArray.[1], NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture)
+         let closePrice =  System.Double.Parse(entryArray.[4], NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture)
+         abs closePrice - openPrice
+
+    let dateWithMaxDifference(stockData:string list) =
+        (List.maxBy priceDifference (stockData.[1..stockData.Length-1] |> List.map splitCommas)).[0]
 
     [<Koan>]
     let YouGotTheAnswerCorrect() =
-        let result =  __
-        
-        AssertEquality "2012-03-13" result
+        AssertEquality "2012-03-13" (dateWithMaxDifference stockData)

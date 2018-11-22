@@ -27,11 +27,11 @@ module ``about filtering`` =
         let names = [ "Alice"; "Bob"; "Eve"; ]
                 
         // Find all the names starting with "A" using an anonymous function
-        let actual_names = 
+        let actualNames = 
             names
             |> List.filter (fun name -> name.StartsWith( "A" ))
      
-        AssertEquality actual_names [ __ ]
+        AssertEquality actualNames [ __ ]
 
         //Or passing a function to filter
         let startsWithTheLetterB (s: string) =
@@ -46,17 +46,17 @@ module ``about filtering`` =
     [<Koan>]
     let FindingJustOneItem() =
         let names = [ "Alice"; "Bob"; "Eve"; ]
-        let expected_name = "Bob"
+        let expectedName = "Bob"
                 
         // find will return just one item, or throws an exception
 
-        let actual_name = 
+        let actualName = 
             names
             |> List.find (fun name -> name = __ )
             
         //??? What would happen if there are 2 Bobs in the List?
 
-        AssertEquality expected_name actual_name
+        AssertEquality expectedName actualName
 
     [<Koan>]
     let FindingJustOneOrZeroItem() =
