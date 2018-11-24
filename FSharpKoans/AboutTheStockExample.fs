@@ -56,16 +56,17 @@ module ``about the stock example`` =
           "2012-03-01,31.93,32.39,31.85,32.29,77344100,32.29";
           "2012-02-29,31.89,32.00,31.61,31.74,59323600,31.74"; ]
     
-    let splitCommas (x:string) =
-        x.Split([|','|])
-
-    let priceDifference (entryArray:string[]) =
-         let openPrice =  System.Double.Parse(entryArray.[1], NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture)
-         let closePrice =  System.Double.Parse(entryArray.[4], NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture)
-         abs closePrice - openPrice
-
     let dateWithMaxDifference(stockData:string list) =
-        (List.maxBy priceDifference (stockData.[1..stockData.Length-1] |> List.map splitCommas)).[0]
+        let absoluteDifference(firstValue:Double, secondValue:Double) =
+            abs (secondValue - firstValue)
+
+        let parseDouble (entryArray:string[], index:int) =
+            System.Double.Parse(entryArray.[index], NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture)
+
+        stockData.Tail
+        |> List.map (fun entryString -> entryString.Split([|','|]))
+        |> List.maxBy (fun entryArray -> absoluteDifference(parseDouble(entryArray, 4), parseDouble(entryArray, 1)))
+        |> Array.head
 
     [<Koan>]
     let YouGotTheAnswerCorrect() =
